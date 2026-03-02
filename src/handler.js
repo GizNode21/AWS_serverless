@@ -1,5 +1,3 @@
-//AWS_ACCESS_KEY_ID="AKIAXJL3NMBFFAYXIMTU"
-//AWS_SECRET_ACCESS_KEY="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"
 const serverless = require("serverless-http");
 const crud = require("./db/crud");
 const validators = require("./db/validators");
