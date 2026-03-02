@@ -1,0 +1,46 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: codingforentrepreneurs
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: serverless-nodejs-api
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  timeout: 45
+  environment:
+    DEBUG: ${env:DEBUG, 0}
+    DATABASE_URL: ${env:DATABASE_URL, "fallback value"}
+  # Uncomment to easily set up a custom domain. Read the docs for more details:
+  # https://www.serverless.com/framework/docs/providers/aws/guide/domains
+  # domain: api.example.com
+  iam:
+    role:
+      name: serverless-my-ssm-role-${env:STAGE, "prod"}
+      statements:
+        - Effect: "Allow"
+          Resource: "*"
+          Action:
+            - "ssm:GetParameter"
+            - "ssm:GetParameters"
+            - "ssm:GetParametersByPath"
+            - "ssm:GetParameterHistory"
+            - "ssm:DescribeParameters"
+            
+functions:
+  api:
+    handler: src/handler.handler
+    events:
+      - httpApi: "*"
+
+custom:
+  dotenv:
+    exclude:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_SESSION_TOKEN
+      - DATABASE_URL
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
