@@ -10,7 +10,7 @@ provider:
   timeout: 45
   environment:
     DEBUG: ${env:DEBUG, 0}
-    DATABASE_URL: ${env:DATABASE_URL, "fallback value"}
+    STAGE: ${env:STAGE, "prod"}
   # Uncomment to easily set up a custom domain. Read the docs for more details:
   # https://www.serverless.com/framework/docs/providers/aws/guide/domains
   # domain: api.example.com

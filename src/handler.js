@@ -1,4 +1,10 @@
+/*Old
+AWS_ACCESS_KEY_ID="AKIAXJL3NMBFFAYXIMTU"
+AWS_SECRET_ACCESS_KEY="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"
+*/
+
 const serverless = require("serverless-http");
+const secrets = require("./lib/secrets");
 const crud = require("./db/crud");
 const validators = require("./db/validators");
 const { getDbClient } = require("./db/clients");
@@ -15,6 +21,7 @@ app.get("/", async (req, res, next) => {
   const delta = (dbNowResult.now.getTime() - now) / 1000;
   return res.status(200).json({
     message: "Hello from root!",
+    STAGE: secrets.STAGE,
     delta: delta,
     //DEBUG: parseInt(process.env.DEBUG) === 1, 
     //DATABASE_URL: process.env.DATABASE_URL ? process.env.DATABASE_URL : "not there"

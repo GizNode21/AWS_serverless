@@ -1,4 +1,4 @@
-const { SSMClient, GetParameterCommand } =  require("@aws-sdk/client-ssm");
+const { SSMClient, GetParameterCommand, PutParameterCommand} =  require("@aws-sdk/client-ssm");
 const AWS_REGION = "us-east-2"
 const STAGE = process.env.STAGE || "prod";
 const client = new SSMClient({region: AWS_REGION});
@@ -26,4 +26,29 @@ async function getDbUrl() {
   }
 }
 
-module.exports = { getDbUrl };
+async function putDbUrl(stage, dbUrlValue) {
+  const paramStage = stage ? stage : "dev";
+  if (paramStage === "prod") {
+    return;
+  }
+  if (! dbUrlValue) {
+    return;
+  }
+  const DATABASE_URL_SSM_PARAM = `/serverless-nodejs-api/${paramStage}/database-url`;
+  try {
+    const paramStoreData = {
+      Name: DATABASE_URL_SSM_PARAM,
+      Value: dbUrlValue,
+      Type: "SecureString",
+      Overwrite: true,
+    }
+    const result = await client.send(new PutParameterCommand(paramStoreData, 30000));
+    return result;
+  } catch(err) {
+    console.log(err);
+  }
+}
+
+module.exports = { getDbUrl, 
+putDbUrl };
+module.exports.STAGE = STAGE; 
