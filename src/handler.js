@@ -20,7 +20,6 @@ app.get("/", async (req, res, next) => {
   const [ dbNowResult ] = await sql`SELECT now()`;
   const delta = (dbNowResult.now.getTime() - now) / 1000;
   return res.status(200).json({
-    message: "Hello from root!",
     STAGE: secrets.STAGE,
     delta: delta,
     //DEBUG: parseInt(process.env.DEBUG) === 1, 
