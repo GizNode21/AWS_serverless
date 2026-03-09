@@ -40,6 +40,7 @@ custom:
       - AWS_SECRET_ACCESS_KEY
       - AWS_SESSION_TOKEN
       - DATABASE_URL
+      - NEON_API_KEY
 
 plugins:
   - serverless-dotenv-plugin
