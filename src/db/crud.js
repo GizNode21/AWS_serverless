@@ -12,14 +12,14 @@ async function newLead({email}) {
     return result;
 }
 
-async function listLeads() {
+async function getLeads() {
     const db = await clients.getDrizzleDbClient();
     const result = await db.select().from(schemas.LeadTable)
     .orderBy(desc(schemas.LeadTable.createdAt)).limit(10);
     return result;
 }
 
-async function getLead(id) {
+/*async function getLead(id) {
     //const filter = eq(schemas.LeadTable.id, id)
     const db = await clients.getDrizzleDbClient();
     const result = await db.select().from(schemas.LeadTable)
@@ -28,10 +28,10 @@ async function getLead(id) {
         return result[0];
     }
     return null;
-}
+}*/
 
 module.exports = {
     newLead, 
-    listLeads,
-    getLead,
+    getLeads,
+    //getLead,
 };
