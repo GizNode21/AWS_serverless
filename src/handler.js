@@ -29,7 +29,7 @@ app.get("/", async (req, res, next) => {
 });
 
 app.get("/leads", async (req, res, next) => {
-  const result = await crud.getLead(8);
+  const result = await crud.getLeads();
   return res.status(200).json({
     results: result,
   });
